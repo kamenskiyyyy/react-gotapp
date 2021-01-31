@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import './randomChar.css';
 import gotService from '../../services/gotService';
-import {Spinner} from '../spinner/spinner';
+import Spinner from '../spinner/spinner';
 import {ErrorMessage} from '../errorMessage/errorMessage';
 
 export default class RandomChar extends Component {
@@ -15,20 +15,21 @@ export default class RandomChar extends Component {
 
     componentDidMount() {
         this.updateChar();
-        this.timerId = setInterval(this.updateChar, 1500);
+        this.timerId = setInterval(this.updateChar, 15000);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(){
         clearInterval(this.timerId);
     }
 
     onCharLoaded = (char) => {
         this.setState({
-            char, loading: false
+            char,
+            loading: false
         })
     }
 
-    onError = (error) => {
+    onError = (err) => {
         this.setState({
             error: true,
             loading: false
@@ -36,8 +37,7 @@ export default class RandomChar extends Component {
     }
 
     updateChar = () => {
-        console.log("update");
-        const id = Math.floor(Math.random()*140 + 25);
+        const id = Math.floor(Math.random()*140 + 25); //25-140
         this.gotService.getCharacter(id)
             .then(this.onCharLoaded)
             .catch(this.onError);
@@ -48,7 +48,7 @@ export default class RandomChar extends Component {
 
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
-        const content = (!loading || error) ? <View char={char}/> : null;
+        const content = !(loading || error) ? <View char={char}/> : null;
 
         return (
             <div className="random-block rounded">
@@ -59,7 +59,6 @@ export default class RandomChar extends Component {
         );
     }
 }
-
 const View = ({char}) => {
     const {name, gender, born, died, culture} = char;
     return (

@@ -1,6 +1,6 @@
-import {Col, Row, Container} from 'reactstrap';
+import {Col, Row} from 'reactstrap';
 
-export const RowBlock = ({left, right}) => {
+const RowBlock = ({left, right}) => {
     return (
         <Row>
             <Col md='6'>
@@ -12,3 +12,5 @@ export const RowBlock = ({left, right}) => {
         </Row>
     )
 }
+
+export default RowBlock;

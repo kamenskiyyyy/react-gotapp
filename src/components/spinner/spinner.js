@@ -1,9 +1,11 @@
 import './spinner.css';
 
-export const Spinner = () => {
+const Spinner = () => {
     return (
-        <div className="loadingio-spinner-spin-8cchz74skjd"><div className="ldio-nj6v1qqhlta">
-        <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
-        </div></div>
+        <div className="lds-css ng-scope">
+            <div className="lds-spin"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
+        </div>
     )
 }
+
+export default Spinner;

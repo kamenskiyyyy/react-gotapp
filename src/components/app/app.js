@@ -1,28 +1,29 @@
-import {Component} from 'react';
+import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
-import {Header} from '../header/header';
+import Header from '../header/header';
 import RandomChar from '../randomChar/randomChar';
 import {ErrorMessage} from '../errorMessage/errorMessage';
-import CharacterPage from '../characterPage/characterPage';
-import GotService from '../../services/gotService';
-import {BrowserRouter as Router, Route} from 'react-router-dom'; 
+import CharacterPage from '../pages/characterPage';
+import BooksPage from '../pages/booksPage';
+import HousesPage from '../pages/housesPage';
+import BooksItem from '../pages/booksItem';
+import gotService from '../../services/gotService';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import './app.css';
-import ItemList from '../itemList/itemList';
-import CharDetails from '../charDetails/charDetails';
 
 
 export default class App extends Component {
-
-    gotService = new GotService();
+    gotService = new gotService();
 
     state = {
         showRandomChar: true,
-        selectedChar: null,
-        error: false
-    }
+        error: false,
+        selectedHouse: 20
+    };
 
     componentDidCatch() {
+        console.log('error');
         this.setState({
             error: true
         })
@@ -34,7 +35,8 @@ export default class App extends Component {
                 showRandomChar: !state.showRandomChar
             }
         });
-    }
+    };
+
 
     render() {
         const char = this.state.showRandomChar ? <RandomChar/> : null;
@@ -42,38 +44,33 @@ export default class App extends Component {
         if (this.state.error) {
             return <ErrorMessage/>
         }
-        
+
         return (
-            <> 
-                <Container>
-                    <Header />
-                </Container>
-                <Container>
-                    <Row>
-                        <Col lg={{size: 5, offset: 0}}>
+            <Router> 
+                <div className='app'>
+                    <Container>
+                        <Header />
+                    </Container>
+                    <Container>
+                        <Row>
+                            <Col lg={{size: 5, offset: 0}}>
                             {char}
                             <button 
                                 className="toggle-btn"
                                 onClick={this.toggleRandomChar}>Toggle random character</button>
-                        </Col>
-                    </Row>
-                    <CharacterPage/>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList 
-                            onCharSelected={this.onCharSelected}
-                            getData={this.gotService.getAllBooks}
-                            renderItem={(item) => item.name} />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails 
-                            onCharSelected={this.state.selectedChar}
-                            getData={this.gotService.getAllHouses}
-                            renderItem={(item) => item.name} />
-                        </Col>
-                    </Row>
-                </Container>
-            </>
-        );
+                            </Col>
+                        </Row>
+                        <Route path='/' component={() => <h1>Welcome to GOT DB</h1>} exact/>
+                        <Route path='/characters' component={CharacterPage} />
+                        <Route path='/books' component={BooksPage} exact/>
+                        <Route path='/books/:id' render={({match}) => {
+                            const {id} = match.params;
+                        return <BooksItem bookId={id}/>}}/>
+                        <Route path='/houses' component={HousesPage} />
+                    </Container>
+                </div>
+            </Router>
+        )
     }
+
 };
