@@ -5,6 +5,7 @@ import RandomChar from '../randomChar/randomChar';
 import {ErrorMessage} from '../errorMessage/errorMessage';
 import CharacterPage from '../characterPage/characterPage';
 import GotService from '../../services/gotService';
+import {BrowserRouter as Router, Route} from 'react-router-dom'; 
 
 import './app.css';
 import ItemList from '../itemList/itemList';
