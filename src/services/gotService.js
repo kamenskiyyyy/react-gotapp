@@ -1,5 +1,5 @@
 export default class GotService {
-    constructor() {
+    constructor () {
         this._apiBase = 'https://www.anapioficeandfire.com/api';
     }
 
